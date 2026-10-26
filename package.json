@@ -1,0 +1,27 @@
+{
+  "name": "ps5-cafe-tv-manager",
+  "version": "0.1.0",
+  "private": true,
+  "description": "LAN-first TV and timed-session manager for a PS5 gaming centre",
+  "engines": {
+    "node": ">=24.0.0"
+  },
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "dev": "concurrently -n server,web -c cyan,magenta \"npm run dev -w @ps5-cafe/server\" \"npm run dev -w @ps5-cafe/web\"",
+    "build": "npm run build -w @ps5-cafe/contracts && npm run build -w @ps5-cafe/server && npm run build -w @ps5-cafe/web",
+    "typecheck": "npm run typecheck --workspaces --if-present",
+    "test": "npm run test --workspaces --if-present",
+    "verify": "npm run typecheck && npm test && npm run build",
+    "start": "npm run start -w @ps5-cafe/server",
+    "start:live": "bash scripts/start-live.sh",
+    "handoff:claude": "bash scripts/continue-with-claude.sh"
+  },
+  "devDependencies": {
+    "concurrently": "^9.2.1"
+  }
+}
+

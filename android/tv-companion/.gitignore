@@ -1,0 +1,19 @@
+# Machine-specific SDK path
+local.properties
+
+# Gradle and build outputs
+.gradle/
+.kotlin/
+build/
+captures/
+
+# IDE files
+.idea/
+*.iml
+
+# Built packages. The copy in dist/ is also ignored by the repository-wide `dist/` rule;
+# rebuild it with ./gradlew assembleDebug instead of committing binaries.
+*.apk
+*.aab
+*.ap_
+output-metadata.json

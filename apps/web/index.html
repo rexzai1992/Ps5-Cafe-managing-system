@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#f5f5f7" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)" />
+    <meta name="color-scheme" content="light dark" />
+    <title>PS5 Cafe Control</title>
+    <script>
+      // A TV browser too old for this page would otherwise show a blank screen. Show why, with the browser version.
+      function ps5CafeCannotStart(reason) {
+        var root = document.getElementById("root");
+        if (!root || root.hasChildNodes()) return;
+        root.style.cssText = "padding:5vw;font:24px/1.5 sans-serif;color:#fff;background:#000;min-height:100vh";
+        root.textContent = "The PS5 Cafe page could not start (" + reason + "). Browser: " + navigator.userAgent;
+      }
+      window.addEventListener("error", function (event) { ps5CafeCannotStart(event.message || "script error"); });
+    </script>
+  </head>
+  <body><div id="root"></div><script type="module" src="/src/main.tsx"></script><script nomodule>ps5CafeCannotStart("this browser has no JavaScript modules");</script></body>
+</html>
+

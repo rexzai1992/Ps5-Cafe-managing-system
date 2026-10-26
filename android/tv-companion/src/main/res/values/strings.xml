@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <string name="app_name">PS5 Cafe Screen</string>
+
+    <!-- Screen overlay -->
+    <string name="overlay_retry_title">Cannot reach the PS5 Cafe server — retrying in %1$d s</string>
+    <string name="overlay_connecting_title">Connecting to the PS5 Cafe server…</string>
+    <string name="overlay_retry_detail">Server: %1$s · Station: %2$s\nFailed attempts: %3$d · Last error: %4$s</string>
+    <string name="overlay_retry_hint">Press OK to retry now. Hold BACK for 3 seconds to open setup.</string>
+    <string name="overlay_unconfigured_title">This TV screen is not configured yet</string>
+    <string name="overlay_unconfigured_detail">Set the server, station and screen key with the ADB command in android/tv-companion/README.md, or use the setup screen.</string>
+    <string name="overlay_setup_hint">Press OK to open setup.</string>
+    <string name="overlay_no_webview_title">Android System WebView is not available on this TV</string>
+    <string name="overlay_no_webview_detail">The screen page cannot be shown without it. Error: %1$s</string>
+    <string name="toast_config_saved">Screen configuration saved: %1$s</string>
+    <string name="toast_config_rejected">Configuration rejected: %1$s</string>
+
+    <!-- Setup -->
+    <string name="setup_title">PS5 Cafe TV screen setup</string>
+    <string name="setup_intro">Copy these values from the dashboard\'s Device Settings page for this TV. The screen URL has the form &lt;server&gt;/#/screen/&lt;station&gt;?k=&lt;key&gt;.</string>
+    <string name="setup_current">Saved: %1$s</string>
+    <string name="setup_current_none">Saved: nothing yet. This TV is not configured.</string>
+    <string name="setup_server_label">Server origin, http or https with no path. Example: http://192.168.100.65:5173</string>
+    <string name="setup_station_label" tools:ignore="TypographyDashes">Station ID: lowercase letters, digits and dashes. Example: ps5-03</string>
+    <string name="setup_key_label">Screen key. Leave empty to keep the saved key (it is never shown here).</string>
+    <string name="setup_boot_label">Try to open the screen after the TV boots (best effort; often blocked on Android 10+)</string>
+    <string name="setup_save">Save and show screen</string>
+    <string name="setup_diagnostics">Diagnostics</string>
+    <string name="setup_cancel">Back to screen</string>
+    <string name="setup_kiosk_note">Holding BACK for 3 seconds opens this page. That is a staff convenience, not a security boundary: HOME, INPUT, the TV\'s own buttons, a reboot or the PS5 itself can still take the TV away from this app. Nothing in this app locks the TV.</string>
+    <string name="setup_version">App %1$s (version code %2$d) · %3$s</string>
+    <string name="setup_saved_toast">Saved for %1$s</string>
+
+    <!-- Diagnostics -->
+    <string name="diag_title">Diagnostics (physical test)</string>
+    <string name="diag_warning">Physical-test evidence only. Record what you see in docs/HARDWARE_LIMITATIONS.md. Nothing on this screen is a lock. The app cannot see what an HDMI input shows, so a switch result here only means Android accepted the request: look at the TV and write down what actually happened.</string>
+    <string name="diag_log">Write report to logcat (PS5CafeDiag)</string>
+    <string name="diag_refresh">Refresh</string>
+    <string name="diag_back">Back</string>
+    <string name="diag_inputs_heading">TV inputs that accept a passthrough switch request</string>
+    <string name="diag_report_heading">Full report</string>
+    <string name="diag_try_switch">Try switch to this input</string>
+    <string name="diag_no_passthrough">TvInputManager reported no passthrough (HDMI) inputs. See the report below for the reason.</string>
+    <string name="diag_logged_toast">Report written to logcat. Run: adb logcat -s PS5CafeDiag</string>
+    <string name="diag_last_switch">Last switch attempt: %1$s</string>
+    <string name="diag_last_switch_none">Last switch attempt: none yet.</string>
+    <!-- Session timer overlay (informational only, not a lock) -->
+    <string name="timer_time_left">Time left</string>
+    <string name="timer_paused">Paused</string>
+    <string name="timer_expired_caption">Session over</string>
+    <string name="timer_expired">Time\'s up</string>
+    <string name="timer_channel_name">Session timer overlay</string>
+    <string name="timer_channel_description">Keeps the remaining-time box running over the TV picture.</string>
+    <string name="timer_notification_title">PS5 Cafe session timer</string>
+    <string name="timer_notification_text">Shows remaining session time over the TV picture. Informational only; not a lock.</string>
+    <string name="diag_test_overlay">Test overlay (10 s)</string>
+    <string name="diag_overlay_granted">Timer overlay: "Display over other apps" is GRANTED. %1$s</string>
+    <string name="diag_overlay_missing">Timer overlay: "Display over other apps" is NOT granted, so the countdown box cannot appear. Grant it from the computer: adb shell appops set com.ps5cafe.tvcompanion SYSTEM_ALERT_WINDOW allow  (pm grant does not work for this permission). %1$s</string>
+    <string name="diag_overlay_test_started">Overlay test running for 10 s. Switch the TV to the PS5 input now and look at the top-right corner. Record whether the box is visible on top of the game picture.</string>
+    <string name="diag_overlay_test_refused">Overlay test not started: the permission is missing or Android refused to start the service. See adb logcat -s PS5CafeDiag.</string>
+</resources>

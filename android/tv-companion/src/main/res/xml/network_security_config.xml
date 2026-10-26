@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Why cleartext is permitted:
+    The PS5 Cafe server runs on the cafe LAN over plain http (for example
+    http://192.168.100.65:5173) and its address is entered at runtime by staff, so it cannot be
+    listed in a build-time <domain-config>. Android's network security config cannot express an
+    IP range, so cleartext is permitted in the base config.
+
+    What limits it instead:
+    - MainActivity only loads the one origin (scheme, host, port) saved in its configuration and
+      ignores navigation to any other origin or scheme.
+    - The screen page is display-only. It carries a per-TV screen key, not staff credentials.
+    - The TV and server must sit on a staff-only network; never route this traffic over the internet.
+
+    https origins still work and keep using the system trust store only (no user CAs).
+-->
+<network-security-config xmlns:tools="http://schemas.android.com/tools">
+    <base-config
+        cleartextTrafficPermitted="true"
+        tools:ignore="InsecureBaseConfiguration">
+        <trust-anchors>
+            <certificates src="system" />
+        </trust-anchors>
+    </base-config>
+</network-security-config>

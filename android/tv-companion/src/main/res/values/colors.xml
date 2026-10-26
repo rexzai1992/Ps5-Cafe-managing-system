@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="screen_bg">#FF000000</color>
+    <color name="panel_bg">#FF0B1020</color>
+    <color name="overlay_bg">#FF0B1020</color>
+    <color name="text_primary">#FFFFFFFF</color>
+    <color name="text_dim">#FFB0BCD0</color>
+    <color name="accent">#FF0070D1</color>
+    <color name="focus">#FFFFD54F</color>
+    <color name="control_bg">#FF1E2A44</color>
+    <color name="control_border">#FF3A4A6A</color>
+    <color name="error">#FFFF8A80</color>
+    <color name="warning">#FFFFD54F</color>
+    <!-- Session timer overlay: dark by default, amber at <= 10 min, red at <= 1 min. -->
+    <color name="timer_bg_normal">#CC000000</color>
+    <color name="timer_fg_normal">#FFFFFFFF</color>
+    <color name="timer_bg_warning">#E6FFB300</color>
+    <color name="timer_fg_warning">#FF000000</color>
+    <color name="timer_bg_critical">#E6D32F2F</color>
+    <color name="timer_fg_critical">#FFFFFFFF</color>
+</resources>
