@@ -1,132 +1,205 @@
+<div align="center">
+
+![PS5 Cafe TV and Session Manager](docs/assets/readme-hero.svg)
+
 # PS5 Cafe TV Manager
 
-LAN-first TV and session management for a PS5 gaming centre. The server owns session time and state, persists them in SQLite, serializes commands per station, pushes real-time updates, and serves a responsive staff dashboard plus per-TV advertising and QR-booking screens.
+**A LAN-first control centre for timed gaming sessions, TV screens, QR reservations, media and staff operations.**
 
-> One exact display model—the Hisense WE3FE / 75WE3FE interactive Android panel—has partial physical verification. Other Android/Google TV models, Prism TVs, Samsung Tizen, VIDAA, and HDMI-control hardware are not verified. Software input switching is not tamper-proof access control.
+[![TypeScript](https://img.shields.io/badge/TypeScript-strict-3178C6?style=flat-square&logo=typescript&logoColor=white)](tsconfig.base.json)
+[![Node.js](https://img.shields.io/badge/Node.js-24%2B-339933?style=flat-square&logo=nodedotjs&logoColor=white)](package.json)
+[![Server tests](https://img.shields.io/badge/server_tests-217_passing-248A3D?style=flat-square)](apps/server/src)
+[![Dashboard tests](https://img.shields.io/badge/dashboard_tests-93_passing-248A3D?style=flat-square)](apps/web/src)
+[![Network](https://img.shields.io/badge/network-LAN_first-0071E3?style=flat-square)](docs/ARCHITECTURE.md)
+[![Hardware](https://img.shields.io/badge/physical_TV-partially_verified-B25000?style=flat-square)](docs/HARDWARE_LIMITATIONS.md)
+
+[Features](#what-it-does) · [TV support](#tv-support-right-now) · [Quick start](#quick-start) · [Live café mode](#live-café-mode) · [Architecture](#how-it-fits-together) · [Safety](#safety-boundaries)
+
+</div>
+
+> [!IMPORTANT]
+> The server is authoritative for every timer and session transition. TV-side software displays the result; it does not own the clock. Software input switching and expiry screens are **not** tamper-proof access control.
+
+## At a glance
+
+| | Capability | Current behavior |
+|---:|---|---|
+| ⏱️ | **Session control** | Start, pause, resume, extend, end and expire sessions from one dashboard. |
+| 📺 | **TV screens** | Each station gets its own ads, QR booking, active-session and time-expired screen. |
+| 📱 | **QR reservations** | Customers reserve a TV from their phone; staff still start every paid session. |
+| 🎞️ | **Media manager** | Upload validated JPEG, PNG, GIF, WebP, MP4 or WebM media for idle screens. |
+| 🎮 | **Remote tools** | Opt-in Android remote keys, touch, screenshots and HDMI selection over paired wireless debugging. |
+| 🔄 | **Live updates** | Socket.IO keeps every staff screen synchronized with server-owned state. |
+| 💾 | **Recovery** | SQLite restores active and paused sessions after a restart without resetting time. |
+| 🧪 | **Safe simulation** | Ten mock stations, fault injection and accelerated time without LAN traffic. |
+
+## What it does
+
+<table>
+  <tr>
+    <td width="25%" valign="top"><strong>Dashboard</strong><br><br>See all stations, filter by state and act on the sessions that need attention.</td>
+    <td width="25%" valign="top"><strong>TV Remote</strong><br><br>Open one station, send supported keys and inspect an on-demand Android screenshot.</td>
+    <td width="25%" valign="top"><strong>Media Manager</strong><br><br>Upload café artwork and muted video that rotates beside each idle TV's QR code.</td>
+    <td width="25%" valign="top"><strong>Device Settings</strong><br><br>Open TV links, pair Android devices and see the exact capabilities available per station.</td>
+  </tr>
+</table>
+
+- Server-authoritative deadlines with deterministic, injected clocks in tests.
+- Per-station command queues, so one slow or offline TV cannot block another.
+- Required idempotency keys on mutations, including replay protection across restarts.
+- Distinct `SUCCESS`, `FAILURE`, `UNSUPPORTED`, `TIMEOUT`, `UNVERIFIED` and `DEVICE_OFFLINE` outcomes.
+- Real-time connection, session, display-mode and expiry-evidence states—never compressed into one misleading status.
+- Responsive desktop and phone layouts with five fixed areas: Dashboard, TV Remote, Media Manager, Device Settings and System Settings.
+
+## TV support right now
+
+Loading the screen page is not proof that remote control, HDMI switching or expiry enforcement works on that TV. Support is recorded by **exact model and firmware**.
+
+| TV or platform | Status | Available today | Limits |
+|---|---|---|---|
+| **Hisense WE3FE / 75WE3FE VisionBoard**<br>Android 14 · CVTE panel | 🟠 **Partly supported**<br>Physically tested | Companion app, ads, rotating QR, heartbeat, timer overlay, Android TV Input Framework switching, expiry/idle return, paired ADB keys/touch/screenshots and screen on/off | Tested with a PC on HDMI 1—not a PS5. HDMI video is black in screenshots. Touch and system UI remain bypass paths. Backlight state cannot be read. |
+| **Other Android TV / Google TV / Android panels** | ⚪ **Test required** | Screen page and companion APK are ready for model testing | Overlay, WebView, TV Input Framework and wireless-debugging behavior vary by model and firmware. |
+| **Modern browser-only TV** | ⚪ **Screen-only candidate** | May show ads, QR booking, session and expiry pages | No verified input, remote or power control. Staff/customer uses the physical remote. |
+| **Prism TV** | ⚪ **Not tested** | Nothing claimed yet | Exact model and OS must be identified first. |
+| **Samsung Tizen / Hisense VIDAA / other platforms** | ⚪ **Not tested** | Possible browser-only path | No manufacturer control adapter is enabled. |
+| **Mock TVs** | 🟢 **Supported for development** | Complete simulated session, input, remote, failure and offline flows | Software proof only; it makes no physical-TV claim. |
+
+### Verified on the Hisense WE3FE
+
+- The companion app renders the café screen, PNG/JPEG ads and muted H.264 MP4 video.
+- Starting a session can tune the connected HDMI input inside the app; ending or expiry returns to the café screen.
+- The timer overlay and automatic expiry return were exercised over the HDMI-player path.
+- An explicitly paired device accepts supported Android keys, screenshot taps, source selection and separate backlight on/off commands.
+- Every remote action remains `UNVERIFIED`: command delivery does not prove the final picture.
+
+Still outstanding: a real PS5/game-mode test, reboot and boot-launch recovery, long-run performance, customer-network isolation and the full security matrix. See the [physical test record](docs/HARDWARE_LIMITATIONS.md) and [TV test plan](docs/TV_TEST_PLAN.md).
 
 ## Quick start
 
-Requirements: Node.js 24 or newer and npm 11 or newer.
+Requirements: **Node.js 24+** and **npm 11+**.
 
 ```bash
+git clone https://github.com/rexzai1992/Ps5-Cafe-managing-system.git
+cd Ps5-Cafe-managing-system
 cp .env.example .env
 npm install
 npm run dev
 ```
 
-Open `http://localhost:5173`. In development, the server and web app use `local-dev-token` when no token is configured. Set `PS5_CAFE_API_TOKEN` before allowing other LAN clients to connect.
+Open **http://localhost:5173**. Development uses `local-dev-token` when no token is configured. Set `PS5_CAFE_API_TOKEN` before allowing other LAN clients to connect.
 
-Useful commands:
+| Command | Purpose |
+|---|---|
+| `npm run dev` | Start the API on `:3000` and dashboard on `:5173`. |
+| `npm run verify` | Run strict typechecks, 310 tests and production builds. |
+| `npm run start` | Run the compiled server. |
+| `npm run start:live` | Build and start live café mode on `:8080`. |
+| `npm run handoff:claude` | Continue through the repository-native Claude Code handoff. |
 
-```bash
-npm run verify          # typecheck, server + dashboard tests, production builds
-npm run dev             # server :3000 and dashboard :5173
-npm run start           # run the compiled server
-npm run handoff:claude  # continue interactively in Claude Code
-```
-
-## What works now
-
-- Ten simulated TVs are created automatically.
-- Start, pause, resume, extend, end, advertise, and lock actions.
-- Authoritative server deadlines persisted in SQLite.
-- Restart restoration without resetting active or paused time.
-- Deterministic simulation time acceleration.
-- Offline, reconnect, next-command failure, and unsupported-capability simulation at the domain layer.
-- Per-device promise queues prevent overlapping commands.
-- Socket.IO state updates and responsive station grid.
-- Virtual remote and HDMI buttons routed through the selected adapter.
-- Explicit connection, session, mode, and blocking states.
-- Strict request validation and an `Idempotency-Key` header required on every mutating API call, so client retries are never executed twice.
-- Versioned SQLite migrations and graceful SIGINT/SIGTERM shutdown.
-
-## TV support right now
-
-There are three different levels of TV integration. Do not treat a browser page loading as proof that remote control, HDMI switching, or expiry enforcement works on that model.
-
-| TV or platform | Current status | What works now | Important limits |
-|---|---|---|---|
-| **Hisense WE3FE / 75WE3FE VisionBoard** (Android 14, CVTE interactive panel) | **Partly supported and physically tested** | Companion app installation; ads and rotating booking QR; server heartbeat; timer box over another Android activity; automatic switch to the connected HDMI input through Android TV Input Framework; return to the expiry/idle page; opt-in ADB remote keys, touch, Android-layer screenshots, and separate screen-on/screen-off commands | Tested with a PC on HDMI 1, not a PS5. HDMI video is not visible in screenshots. Touch/system UI can bypass the app. Wireless debugging is required for remote control and may turn off after reboot. Backlight state cannot be read, so a dark panel may still report Online. No tamper-proof lock. |
-| **Any other Android TV / Google TV / Android panel** | **Not yet supported as a verified model** | The screen page and companion APK are available for testing | Compatibility depends on the exact manufacturer, model, Android/firmware version, WebView, overlay policy, TV Input Framework, and ADB behavior. Keep automatic HDMI switching and remote assignment off until that exact model passes `docs/TV_TEST_PLAN.md`. |
-| **TV with a modern browser only** | **Screen-only candidate; unverified per model** | May display ads, QR booking, session, and expiry pages | No automatic input switching, remote control, power control, or verified screen state. Staff/customer must use the physical remote. Old browsers may not run the web app. |
-| **Prism TV** | **Not tested** | None claimed | Identify the exact model and OS first; do not assume it behaves like Android TV. |
-| **Samsung Tizen / Hisense VIDAA / other vendor platforms** | **Not tested and no real adapter enabled** | None claimed beyond a possible browser page | No manufacturer control commands are enabled. |
-| **Mock TVs in simulation mode** | **Supported for development and automated tests** | All session flows, remote/input controls, failures, offline states, and deterministic time acceleration | Simulation is software proof only and says nothing about a physical TV. |
-
-The only model-specific physical record is in [`docs/HARDWARE_LIMITATIONS.md`](docs/HARDWARE_LIMITATIONS.md). Before calling another TV supported, record its manufacturer, exact model, OS/firmware, pairing and recovery behavior, every command result, HDMI behavior, media playback, and what the system can actually verify.
-
-### Hisense WE3FE functions verified so far
-
-- The companion app opens the café screen and plays tested PNG/JPEG advertising plus muted H.264 MP4 video.
-- Starting a session can show the connected HDMI input inside the app; ending or expiring the session returns to the café page. The HDMI test source was a PC, not a PS5.
-- The top-right timer box was exercised over the HDMI player path, and the expiry page returned at zero.
-- With Wireless debugging explicitly paired, staff can send supported Android keys, tap the Android screenshot, open Settings/Sources, select the café screen or HDMI 1–4, and turn the panel backlight on or off.
-- Remote actions remain `UNVERIFIED`: sending a command successfully is not proof of the final picture. On-demand screenshots show Android layers only; protected/hardware HDMI video appears black.
-- The panel is not locked down: its touchscreen, source menu, physical controls, reboot behavior, and customer-accessible UI remain bypass paths. Reboot/boot-launch, PS5 game mode, long-run performance, and the full security/recovery matrix still need testing.
-
-If port 3000 is taken, run the two halves separately:
+<details>
+<summary><strong>Ports already in use?</strong></summary>
 
 ```bash
 PORT=3100 HOST=127.0.0.1 npm run dev -w @ps5-cafe/server
-cd apps/web && VITE_API_TARGET=http://127.0.0.1:3100 npm run dev
+cd apps/web
+VITE_API_TARGET=http://127.0.0.1:3100 npm run dev
 ```
 
-## QR booking on real TVs and phones
+</details>
 
-Each TV shows its own screen page (ads + a QR code that changes every 2 minutes). A customer scans it, picks a time, enters
-a Malaysian mobile number with consent, and the TV is **held** for 10 minutes. Staff see it on the dashboard and press
-**Start** once paid, or **Release**. See `docs/PRIVACY.md` for how the number is handled.
-
-## Run it for real in the café (live mode)
+## Live café mode
 
 ```bash
-npm run start:live      # = bash scripts/start-live.sh
+npm run start:live
 ```
 
-The first run creates `.env.live` (git-ignored, owner-only) with a new staff password (`PS5_CAFE_API_TOKEN`), builds
-everything, and serves the dashboard, TV screens and booking pages from one address, `http://<this-Mac's-LAN-IP>:8080`,
-with `caffeinate` keeping the Mac awake. Live mode (`SIMULATION_MODE=false`):
-
-- TVs default to **screen-only**: each shows its screen page in a TV browser or the companion app. Manufacturer control
-  adapters remain disabled. An explicitly paired Android device may use the separate ADB remote channel; every action is
-  bounded by a timeout and recorded as `UNVERIFIED`, not as confirmed screen state.
-- What the dashboard knows comes from the TV's own polls: **Online** = its page or app checked in within 15 s; **Screen
-  open** = the page is visible; an expired session counts as shown only once the screen page checks in while expired
-  (otherwise "NOT shown" after 20 s). Software only: the customer can switch back with the remote.
-- Time is real (no acceleration), the data lives in its own file (`data/ps5-cafe-live.sqlite`; the server refuses to open
-  a simulation database in live mode or the reverse), and the staff password must be 16+ characters, never the dev token.
-
-Add advertising images and videos in **Media Manager**; every idle TV plays them beside its QR code. TV links use this
-Mac's `.local` name, so they survive DHCP address changes (QR codes give phones the current address).
-Optional automatic switching: with `--es ps5_input auto` (see `docs/TV_TEST_PLAN.md`), a TV's app shows the PS5's HDMI
-input itself when a session starts and returns to the screen page at expiry/end (verified on the Hisense WE3FE).
-Optional remote control: pair a TV's Wireless debugging in **Device Settings → Remote control**, then its panel and the TV
-Remote page show a screenshot you can click to touch the TV, plus Home/Back/Sources/Volume (the HDMI picture shows black).
-Press a TV's thumbnail on the dashboard to open it: its screen page live (exactly what the TV shows while that page is
-open; the PS5 picture is never captured) with every session control. Then: sign in once on each staff device with the password from `.env.live`, open **Device Settings → TV screens and QR
-booking**, and open each TV's link on that TV (companion app: `docs/TV_TEST_PLAN.md`; or the TV's browser).
-
-For development with simulated TVs, run the server and Vite separately instead:
-`PORT=3100 HOST=127.0.0.1 npm run dev -w @ps5-cafe/server` and `cd apps/web && VITE_API_TARGET=http://127.0.0.1:3100 npm run dev`.
-
-## Repository map
+The first run creates a git-ignored, owner-only `.env.live`, builds the application and serves the dashboard, TV screens and booking pages from:
 
 ```text
-apps/server/                 Fastify API, Socket.IO, SQLite, timers, adapters
-apps/web/                    React/Vite responsive dashboard
-packages/contracts/          Shared API and device contracts
-docs/ARCHITECTURE.md         System boundaries and design decisions
-docs/IMPLEMENTATION_PLAN.md  Phased backlog and acceptance gates
-docs/HARDWARE_LIMITATIONS.md Honest compatibility/verification boundary
-docs/research/               TV control and display-locking research (nothing implemented)
-docs/PRIVACY.md              What the QR booking collects, who sees it, and when it is erased
-docs/TV_TEST_PLAN.md         Step-by-step physical TV test with the companion APK
-android/tv-companion/        Android TV companion app (shows a TV's screen page full-screen)
-docs/agent/CURRENT_STATUS.md Live continuation record for coding agents
-AGENTS.md                    Repository-wide engineering instructions
-CLAUDE.md                    Claude Code entrypoint
+http://<this-Mac's-LAN-IP>:8080
 ```
 
-## Security note
+### Live behavior
 
-This first slice uses a single bearer token suitable for a controlled local prototype. Production preparation still requires role-based staff sessions, rate limiting, secret rotation, restricted network binding/firewall rules, and security test coverage. Never expose ADB, Tizen control ports, the API, or the dashboard directly to the public internet.
+1. Sign in on each staff device with the password stored in `.env.live`.
+2. Open **Device Settings → TV screens and QR booking**.
+3. Open each station link on its assigned TV, using the browser or companion app.
+4. Add advertising in **Media Manager**.
+5. Keep manufacturer control adapters disabled until that exact model passes the hardware test record.
+
+TVs default to **screen-only**. A specifically paired Android device may also use the bounded ADB remote channel, but the result remains `UNVERIFIED`. The dashboard calls a TV Online only while its screen page or companion service has polled within 15 seconds.
+
+### QR reservation privacy
+
+A customer may enter a Malaysian mobile number only with explicit consent. The number is used only for that booking, removed when the reservation closes and never retained longer than 24 hours. A reservation holds a TV; **staff start every session**. See [PRIVACY.md](docs/PRIVACY.md).
+
+## How it fits together
+
+```mermaid
+flowchart LR
+    Staff[Staff dashboard] -->|Authenticated REST + Socket.IO| API
+    Phone[Customer phone] -->|Rotating QR reservation| API
+    TV[TV screen / companion app] -->|Heartbeat + screen state| API
+
+    subgraph Local[Local management server]
+      API[API + live updates] --> Auth[Auth + validation]
+      Auth --> Sessions[Session service]
+      Sessions --> Clock[Authoritative clock]
+      Sessions --> Queue[Per-station queues]
+      Sessions --> DB[(SQLite)]
+      Queue --> Adapter{Capability-gated adapter}
+    end
+
+    Adapter --> Mock[Mock TV]
+    Adapter -. opt-in .-> Android[Paired Android remote]
+    API -->|Ads · QR · timer · expiry| TV
+```
+
+| Layer | Owns | Never owns |
+|---|---|---|
+| `apps/server` | Time, transitions, persistence, authentication, queues and evidence | Browser-only timers or PS5 commands |
+| `apps/web` | Staff UI, TV/booking pages and local presentation | Authoritative state or direct TV transports |
+| `packages/contracts` | Shared strict TypeScript contracts | Device protocol implementations |
+| `android/tv-companion` | Full-screen café page, timer overlay and tested TIF behavior | Session authority or secure HDMI locking |
+
+Read the full [architecture](docs/ARCHITECTURE.md).
+
+## Safety boundaries
+
+> [!WARNING]
+> This is a controlled-LAN prototype, not a tamper-proof console lock.
+
+- Never expose ADB, Tizen control ports, the API or dashboard directly to the public internet.
+- A successful command is not proof of the picture currently shown on the panel.
+- HDMI/gameplay video is never continuously captured; on-demand Android screenshots normally show the hardware video layer as black.
+- No PS5 command injection, rooting, firmware modification or public ADB exposure is used.
+- Real transports remain disabled by default until manufacturer, model, firmware, command and result are physically recorded.
+- Production hardening still needs role-based staff sessions, firewall rules, secret rotation and expanded security testing.
+
+## Repository guide
+
+```text
+apps/server/                 Fastify API, Socket.IO, SQLite, timers and adapters
+apps/web/                    React + Vite staff, TV and booking interfaces
+packages/contracts/          Shared strict TypeScript contracts
+android/tv-companion/        Native Android TV companion application
+docs/ARCHITECTURE.md         System boundaries and design decisions
+docs/HARDWARE_LIMITATIONS.md Physical compatibility and verification record
+docs/TV_TEST_PLAN.md         Repeatable model-by-model physical test plan
+docs/PRIVACY.md              QR booking data handling
+docs/research/               Sourced TV-control and locking research
+docs/agent/CURRENT_STATUS.md Verified project state and next task
+```
+
+## Verification
+
+Current repository gate:
+
+```text
+TypeScript strict checks   ✓
+Server tests              217 / 217
+Dashboard tests            93 / 93
+Production builds           ✓
+```
+
+Automated simulation, rendered-browser checks and physical-hardware proof are tracked separately. Passing the software suite does not promote an untested TV model to supported status.

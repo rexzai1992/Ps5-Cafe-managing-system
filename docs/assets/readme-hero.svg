@@ -1,0 +1,46 @@
+<svg width="1440" height="640" viewBox="0 0 1440 640" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">PS5 Cafe TV and Session Manager</title>
+  <desc id="desc">A dark blue illustration of the cafe management dashboard showing six television stations with playing, reserved, idle, expired, offline and paused states.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1440" y2="640" gradientUnits="userSpaceOnUse"><stop stop-color="#050810"/><stop offset="0.55" stop-color="#0B1425"/><stop offset="1" stop-color="#071C35"/></linearGradient>
+    <linearGradient id="blue" x1="240" y1="160" x2="590" y2="500" gradientUnits="userSpaceOnUse"><stop stop-color="#54AEFF"/><stop offset="1" stop-color="#0071E3"/></linearGradient>
+    <linearGradient id="screen" x1="760" y1="92" x2="1325" y2="560" gradientUnits="userSpaceOnUse"><stop stop-color="#1B2942"/><stop offset="1" stop-color="#0D1523"/></linearGradient>
+    <radialGradient id="glow" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(421 323) rotate(20) scale(520 390)"><stop stop-color="#0071E3" stop-opacity="0.25"/><stop offset="1" stop-color="#0071E3" stop-opacity="0"/></radialGradient>
+    <filter id="shadow" x="660" y="38" width="750" height="580" filterUnits="userSpaceOnUse"><feDropShadow dx="0" dy="28" stdDeviation="28" flood-color="#000" flood-opacity="0.45"/></filter>
+  </defs>
+  <rect width="1440" height="640" rx="32" fill="url(#bg)"/><rect width="1440" height="640" rx="32" fill="url(#glow)"/>
+  <circle cx="1327" cy="54" r="180" fill="#0071E3" fill-opacity="0.08"/><circle cx="79" cy="611" r="210" fill="#34C759" fill-opacity="0.045"/>
+  <g font-family="-apple-system, BlinkMacSystemFont, Segoe UI, sans-serif">
+    <g transform="translate(92 100)">
+      <rect width="46" height="46" rx="13" fill="url(#blue)"/><text x="23" y="30" text-anchor="middle" fill="white" font-size="15" font-weight="800">P5</text>
+      <text x="62" y="18" fill="#7CBFFF" font-size="13" font-weight="700" letter-spacing="2.2">PS5 CAFE</text><text x="62" y="39" fill="#95A3B8" font-size="14">LAN operations system</text>
+      <text x="0" y="130" fill="white" font-size="56" font-weight="760" letter-spacing="-2.2">TV &amp; session</text><text x="0" y="192" fill="white" font-size="56" font-weight="760" letter-spacing="-2.2">manager.</text>
+      <text x="0" y="244" fill="#AFBACB" font-size="19">One calm control surface for timers,</text><text x="0" y="273" fill="#AFBACB" font-size="19">TV screens, reservations and media.</text>
+      <g transform="translate(0 321)">
+        <rect width="122" height="34" rx="17" fill="#0D2743" stroke="#1C4C79"/><circle cx="18" cy="17" r="5" fill="#34C759"/><text x="32" y="22" fill="#C7E4FF" font-size="12" font-weight="700">LAN FIRST</text>
+        <rect x="134" width="151" height="34" rx="17" fill="#0D2743" stroke="#1C4C79"/><circle cx="152" cy="17" r="5" fill="#54AEFF"/><text x="166" y="22" fill="#C7E4FF" font-size="12" font-weight="700">SERVER CLOCK</text>
+        <rect x="297" width="130" height="34" rx="17" fill="#0D2743" stroke="#1C4C79"/><circle cx="315" cy="17" r="5" fill="#FFB340"/><text x="329" y="22" fill="#C7E4FF" font-size="12" font-weight="700">10 STATIONS</text>
+      </g>
+      <path d="M0 408H460" stroke="#24344A"/><text x="0" y="444" fill="#748399" font-size="13">Simulation + live screen mode</text><text x="0" y="470" fill="#748399" font-size="13">Honest hardware verification boundaries</text>
+    </g>
+    <g filter="url(#shadow)">
+      <rect x="692" y="72" width="656" height="496" rx="24" fill="url(#screen)" stroke="#33445E"/><rect x="692" y="72" width="656" height="48" rx="24" fill="#172238"/><path d="M692 120H1348" stroke="#2A3A53"/>
+      <circle cx="719" cy="96" r="5" fill="#FF5F57"/><circle cx="737" cy="96" r="5" fill="#FEBB2E"/><circle cx="755" cy="96" r="5" fill="#28C840"/><text x="787" y="101" fill="#95A3B8" font-size="12">PS5 Cafe · Stations</text>
+      <rect x="714" y="140" width="112" height="406" rx="14" fill="#111B2C"/><rect x="730" y="158" width="27" height="27" rx="8" fill="#0071E3"/><text x="743.5" y="176" text-anchor="middle" fill="white" font-size="9" font-weight="800">P5</text>
+      <text x="766" y="169" fill="white" font-size="10" font-weight="700">PS5 Cafe</text><text x="766" y="181" fill="#718197" font-size="8">Manager</text>
+      <rect x="724" y="211" width="92" height="30" rx="8" fill="#0A3158"/><rect x="734" y="221" width="10" height="10" rx="3" fill="#2997FF"/><text x="751" y="230" fill="#B9DFFF" font-size="9" font-weight="600">Stations</text>
+      <text x="734" y="269" fill="#718197" font-size="9">TV Remote</text><text x="734" y="304" fill="#718197" font-size="9">Media</text><text x="734" y="339" fill="#718197" font-size="9">Devices</text><text x="734" y="374" fill="#718197" font-size="9">System</text>
+      <circle cx="735" cy="517" r="4" fill="#34C759"/><text x="747" y="520" fill="#9AA8BA" font-size="8">Server online</text>
+      <text x="852" y="169" fill="white" font-size="22" font-weight="730">Stations</text><text x="852" y="190" fill="#7F8DA1" font-size="10">10 televisions · live updates</text>
+      <rect x="1218" y="151" width="103" height="28" rx="9" fill="#0A3158"/><text x="1269.5" y="169" text-anchor="middle" fill="#9DD1FF" font-size="9" font-weight="700">+ 30 MINUTES</text>
+      <g transform="translate(852 211)">
+        <g><rect width="145" height="128" rx="14" fill="#202D42" stroke="#34455F"/><rect x="10" y="10" width="125" height="71" rx="9" fill="#071A2B"/><circle cx="22" cy="22" r="4" fill="#34C759"/><text x="30" y="25" fill="#B7C5D8" font-size="8">PLAYING</text><text x="72.5" y="52" text-anchor="middle" fill="white" font-size="19" font-weight="700">00:42:18</text><rect x="48" y="61" width="49" height="12" rx="6" fill="#0C3155"/><text x="72.5" y="70" text-anchor="middle" fill="#62B5FF" font-size="6" font-weight="700">HDMI 1</text><text x="11" y="101" fill="white" font-size="11" font-weight="700">PS5-01</text><text x="11" y="117" fill="#7F8DA1" font-size="8">Screen open</text><rect x="101" y="95" width="33" height="19" rx="7" fill="#123D2D"/><text x="117.5" y="108" text-anchor="middle" fill="#62D984" font-size="7">ONLINE</text></g>
+        <g transform="translate(157 0)"><rect width="145" height="128" rx="14" fill="#202D42" stroke="#34455F"/><rect x="10" y="10" width="125" height="71" rx="9" fill="#271E0B"/><circle cx="22" cy="22" r="4" fill="#FFB340"/><text x="30" y="25" fill="#E9D19D" font-size="8">RESERVED</text><rect x="48" y="36" width="49" height="35" rx="5" fill="#FFF"/><path d="M53 41h11v11H53zm28 0h11v11H81zM53 57h11v9H53zm14-5h10v14H67zm14 5h11v9H81z" fill="#111827"/><text x="11" y="101" fill="white" font-size="11" font-weight="700">PS5-02</text><text x="11" y="117" fill="#7F8DA1" font-size="8">Held · 08:42</text></g>
+        <g transform="translate(314 0)"><rect width="145" height="128" rx="14" fill="#202D42" stroke="#34455F"/><rect x="10" y="10" width="125" height="71" rx="9" fill="#0A2133"/><text x="72.5" y="34" text-anchor="middle" fill="#9DD1FF" font-size="8" font-weight="700">SCAN TO BOOK</text><rect x="53" y="41" width="39" height="32" rx="4" fill="#FFF"/><path d="M58 46h9v9h-9zm20 0h9v9h-9zM58 59h9v9h-9zm12-4h6v13h-6zm8 5h9v8h-9z" fill="#111827"/><text x="11" y="101" fill="white" font-size="11" font-weight="700">PS5-03</text><text x="11" y="117" fill="#7F8DA1" font-size="8">Idle · QR ready</text></g>
+        <g transform="translate(0 142)"><rect width="145" height="128" rx="14" fill="#202D42" stroke="#34455F"/><rect x="10" y="10" width="125" height="71" rx="9" fill="#2D1115"/><circle cx="22" cy="22" r="4" fill="#FF453A"/><text x="30" y="25" fill="#FFB4AE" font-size="8">TIME EXPIRED</text><text x="72.5" y="58" text-anchor="middle" fill="white" font-size="14" font-weight="750">TIME'S UP</text><text x="11" y="101" fill="white" font-size="11" font-weight="700">PS5-04</text><text x="11" y="117" fill="#FF8D86" font-size="8">Screen shown</text></g>
+        <g transform="translate(157 142)"><rect width="145" height="128" rx="14" fill="#202D42" stroke="#34455F"/><rect x="10" y="10" width="125" height="71" rx="9" fill="#161B24"/><path d="M61 47h23M65 40l-7 7 7 7M81 40l7 7-7 7" stroke="#66758A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><text x="72.5" y="69" text-anchor="middle" fill="#7F8DA1" font-size="8">NOT CONNECTED</text><text x="11" y="101" fill="white" font-size="11" font-weight="700">PS5-05</text><text x="11" y="117" fill="#7F8DA1" font-size="8">Offline</text></g>
+        <g transform="translate(314 142)"><rect width="145" height="128" rx="14" fill="#202D42" stroke="#34455F"/><rect x="10" y="10" width="125" height="71" rx="9" fill="#251D0D"/><circle cx="22" cy="22" r="4" fill="#FFB340"/><text x="30" y="25" fill="#E9D19D" font-size="8">PAUSED</text><text x="72.5" y="58" text-anchor="middle" fill="white" font-size="19" font-weight="700">01:18:06</text><text x="11" y="101" fill="white" font-size="11" font-weight="700">PS5-06</text><text x="11" y="117" fill="#7F8DA1" font-size="8">Session paused</text></g>
+      </g>
+    </g>
+  </g>
+</svg>

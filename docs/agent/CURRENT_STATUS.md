@@ -4,6 +4,18 @@ Updated: 2026-10-26 (Asia/Kuala_Lumpur)
 
 ## Delivered so far
 
+### Visual GitHub README (2026-10-26)
+
+- Rebuilt `README.md` as a visual project page with badges, compact capability tables, GitHub callouts, a Mermaid system
+  flow, quick-start/live-mode guides, privacy and safety boundaries, and the exact model-by-model TV support matrix.
+- Added `docs/assets/readme-hero.svg`, a repository-native 1440×640 dashboard illustration showing playing, reserved, idle,
+  expired, offline and paused stations. Rendered it through headless Chrome and visually inspected the result at full size.
+- Kept physical proof separate from software proof: Hisense WE3FE / 75WE3FE remains partly supported; Prism and all other
+  untested models remain explicitly unverified; remote delivery remains `UNVERIFIED`; the PC-on-HDMI test is not called a
+  PS5 test or a tamper-proof lock.
+- Check: `npm run verify` passed (server 217/217, dashboard 93/93, strict typechecks and production builds).
+- Concrete next task remains the physical Prism/Hisense matrix in `docs/TV_TEST_PLAN.md`.
+
 ### README TV-support matrix (2026-10-26)
 
 - Replaced the outdated blanket statement that no physical TV had been tested with a model-by-model support matrix in
